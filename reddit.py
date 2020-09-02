@@ -53,7 +53,7 @@ def download_media(img_url, file_name, source, folder_name):
     try:
         file_path = folder_name
         if not os.path.exists(file_path):
-            print('???', file_path, '????????')
+            print('Creating ', file_path, '...')
             os.makedirs(file_path)
         
         if source == 'gfycat.com':
@@ -66,7 +66,8 @@ def download_media(img_url, file_name, source, folder_name):
 	        		print("File {0} already exists".format(filename))
 	        		return False
 	        	print('\nDownloading gfycat', img_url)
-	        	urlretrieve(img_url, filename, reporthook)
+	        	#urlretrieve(img_url, filename, reporthook)
+			os.system('curl -k "%s" -o "%s"' % (img_url, filename))
         elif source == 'i.imgur.com':
         	img_url = img_url.replace('.gifv', '.mp4')
         	file_suffix = os.path.splitext(img_url)[1]
@@ -75,7 +76,8 @@ def download_media(img_url, file_name, source, folder_name):
 	        		print("File {0} already exists".format(filename))
 	        		return False
         	print('\nDownloading imgur', img_url)
-        	urlretrieve(img_url, filename, reporthook)
+        	#urlretrieve(img_url, filename, reporthook)
+		os.system('curl -k "%s" -o "%s"' % (img_url, filename))
         elif source == 'i.redd.it':
         	file_suffix = os.path.splitext(img_url)[1]
         	filename = '{}{}{}{}'.format(file_path, os.sep, file_name, file_suffix)
@@ -83,14 +85,15 @@ def download_media(img_url, file_name, source, folder_name):
 	        		print("File {0} already exists".format(filename))
 	        		return False
         	print('\nDownloading imgur', img_url)
-        	urlretrieve(img_url, filename, reporthook)
+        	#urlretrieve(img_url, filename, reporthook)
+		os.system('curl -k "%s" -o "%s"' % (img_url, filename))
         else:
         	exceptions[source] = img_url
 
     except IOError as e:
-        print('??????', e)
+        print('[ERROR]', e)
     except Exception as e:
-        print('?? ?', e)
+        print('[ERROR]', e)
 
 
 
